@@ -1,5 +1,7 @@
 package com.example.chatting1.config;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -35,6 +37,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             }
             chain.doFilter(request, response);
         }
+    }
+
+    public Long getUserId(String token) {
+        Claims claims = Jwts.parser()
+                .parseClaimsJws(token)
+                .getBody();
+
+        return claims.get("userId", Long.class);
     }
 
 }
