@@ -1,12 +1,10 @@
 package com.example.chatting1.controller;
 
-import com.example.chatting1.config.JwtTokenProvider;
-import com.example.chatting1.domain.dto.req.LoginReqDTO;
-import com.example.chatting1.domain.dto.req.RegisterReqDTO;
+import com.example.chatting1.domain.dto.req.AuthReqDTO;
 import com.example.chatting1.domain.dto.res.AuthResDTO;
 import com.example.chatting1.service.AuthService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,13 +16,13 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/register")
-    public ResponseEntity<AuthResDTO> register(@RequestBody RegisterReqDTO registerReqDTO) {
-        return ResponseEntity.ok(authService.register(registerReqDTO));
+    public ResponseEntity<AuthResDTO.Register> register(@RequestBody @Valid AuthReqDTO.Register req) {
+        return ResponseEntity.ok(authService.register(req));
     }
 
-    @GetMapping("/login")
-    public ResponseEntity<AuthResDTO> login(@RequestBody LoginReqDTO loginReqDTO) {
-        return ResponseEntity.ok(authService.login(loginReqDTO));
+    @PostMapping("/login")
+    public ResponseEntity<AuthResDTO.Login> login(@RequestBody @Valid AuthReqDTO.Login req) {
+        return ResponseEntity.ok(authService.login(req));
     }
 
 }
